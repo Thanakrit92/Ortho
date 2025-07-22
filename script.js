@@ -109,3 +109,14 @@ async function login() {
         alert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ: " + err.message);
     }
 }
+
+// dashboard.js
+window.onload = function () {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    document.getElementById("welcomeText").innerText = `ยินดีต้อนรับ ${user.prefix}${user.fname} ${user.lname}`;
+  } else {
+    window.location.href = "index.html"; // redirect กลับถ้ายังไม่ได้ login
+  }
+};
+
