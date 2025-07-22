@@ -1,16 +1,21 @@
-// ป้องกัน zoom
+// ป้องกันการ Zoom
 document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt =>
   document.addEventListener(evt, e => e.preventDefault())
 );
 
+// 🟢 URL ของ Apps Script Web App
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyoFATY4l0nQXzq3-IN1Q7yX2kdJwypx8KSwxG-U0jYQ0ju9cdW7DgIabcREfjftRQ/exec";
+
+// ✅ สลับหน้า login/register
 function switchSection(id) {
   document.getElementById('loginSection').style.display = 'none';
   document.getElementById('registerSection').style.display = 'none';
   document.getElementById(id).style.display = 'block';
 }
 
-function register() {
+// ✅ สมัครสมาชิก
+async function register() {
   const prefix = document.getElementById("prefix").value;
   const fname = document.getElementById("fname").value;
   const lname = document.getElementById("lname").value;
@@ -25,16 +30,31 @@ function register() {
   registerBtn.disabled = true;
   registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>กำลังสมัครสมาชิก...`;
 
-  google.script.run
-    .withSuccessHandler(() => {
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "register",
+        prefix,
+        fname,
+        lname,
+        bhis,
+        pass
+      })
+    });
+
+    const result = await res.json();
+    if (result.status === "success") {
       new bootstrap.Modal(document.getElementById('successModal')).show();
-      resetRegisterBtn();
-    })
-    .withFailureHandler(err => {
-      alert("เกิดข้อผิดพลาด: " + err.message);
-      resetRegisterBtn();
-    })
-    .registerUser({ prefix, fname, lname, bhis, pass });
+    } else {
+      alert("เกิดข้อผิดพลาด: " + result.message);
+    }
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
+  } finally {
+    resetRegisterBtn();
+  }
 }
 
 function resetRegisterBtn() {
@@ -43,7 +63,8 @@ function resetRegisterBtn() {
   btn.innerHTML = "สมัครสมาชิก";
 }
 
-function login() {
+// ✅ เข้าสู่ระบบ
+async function login() {
   const bhis = document.getElementById("bhisLogin").value.trim();
   const pass = document.getElementById("passwordLogin").value.trim();
   const loginBtn = document.getElementById("loginBtn");
@@ -53,26 +74,28 @@ function login() {
   loginBtn.disabled = true;
   loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>กำลังเข้าสู่ระบบ...`;
 
-  google.script.run
-    .withSuccessHandler(response => {
-      if (response === 'success') {
-        google.script.run.withSuccessHandler(url => {
-          const a = document.createElement('a');
-          a.href = url + "?page=dashboard";
-          a.target = '_top';
-          document.body.appendChild(a);
-          a.click();
-        }).getWebAppUrl();
-      } else {
-        alert("User ID หรือรหัสผ่านไม่ถูกต้อง");
-        resetLoginBtn();
-      }
-    })
-    .withFailureHandler(err => {
-      alert("เกิดข้อผิดพลาด: " + err.message);
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "login",
+        bhis,
+        pass
+      })
+    });
+
+    const result = await res.json();
+    if (result.status === "success") {
+      window.location.href = result.redirectUrl;
+    } else {
+      alert("User ID หรือรหัสผ่านไม่ถูกต้อง");
       resetLoginBtn();
-    })
-    .checkLogin(bhis, pass);
+    }
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
+    resetLoginBtn();
+  }
 }
 
 function resetLoginBtn() {
@@ -81,48 +104,19 @@ function resetLoginBtn() {
   btn.innerHTML = "เข้าสู่ระบบ";
 }
 
-///แดชบอร์ด///
-
-// ปิดการ zoom ด้วย Ctrl + Scroll
-document.addEventListener('wheel', function(e) {
-  if (e.ctrlKey) {
-    e.preventDefault();
-  }
-}, { passive: false });
-
-// ปิดการ zoom ด้วย Gesture บน touch device
-document.addEventListener('gesturestart', function (e) {
-  e.preventDefault();
-});
-document.addEventListener('gesturechange', function (e) {
-  e.preventDefault();
-});
-document.addEventListener('gestureend', function (e) {
-  e.preventDefault();
-});
-
+// ✅ ไปยังหน้าต่าง ๆ
 function navigateTo(page) {
-  // แสดง popup
   document.getElementById("loadingPopup").style.display = "flex";
-
-  // เรียก WebApp URL จาก Apps Script
-  google.script.run.withSuccessHandler(function (url) {
-    const newUrl = url + "?page=" + page;
-    window.open(newUrl, "_top");
-  }).getWebAppUrl();
+  window.location.href = `${WEB_APP_URL}?page=${page}`;
 }
 
+// ✅ ออกจากระบบ
 function logout() {
   const modal = new bootstrap.Modal(document.getElementById('logoutModal'));
   modal.show();
 }
 
 function confirmLogout() {
-  document.getElementById("loadingPopup").style.display = "flex"; // แสดง loading
-  google.script.run
-    .withSuccessHandler(function(url) {
-      window.location.href = url + "?page=index";
-    })
-    .logoutAndReturnHome();
+  document.getElementById("loadingPopup").style.display = "flex";
+  window.location.href = `${WEB_APP_URL}?page=index&logout=true`;
 }
-
