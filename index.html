@@ -1,18 +1,87 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <base target="_top">
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>เว็บแอป</title>
+  <title>ระบบลงทะเบียน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="https://i.ibb.co/wFJPn4V/5.png" type="image/png">
+
+  <!-- CSS แยกไฟล์ -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <iframe
-    style="width: 100%; height: 100vh;"
-    scrolling="yes"
-    src="https://script.google.com/macros/s/AKfycbyoFATY4l0nQXzq3-IN1Q7yX2kdJwypx8KSwxG-U0jYQ0ju9cdW7DgIabcREfjftRQ/exec"
-    frameborder="0">
-  </iframe>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+
+        <!-- Login Section -->
+        <div id="loginSection" class="form-container">
+          <h3 class="text-center gold-text mb-4">เข้าสู่ระบบ</h3>
+          <div class="mb-3">
+            <label class="form-label">User ID</label>
+            <input type="text" id="bhisLogin" class="form-control" placeholder="User ID">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">รหัสผ่าน</label>
+            <input type="password" id="passwordLogin" class="form-control" placeholder="กรอกรหัสผ่าน">
+          </div>
+          <button id="loginBtn" class="btn gold-bg w-100 mb-3" onclick="login()">เข้าสู่ระบบ</button>
+          <div class="text-center">
+            ยังไม่มีบัญชี? <a href="#" onclick="switchSection('registerSection')">สมัครสมาชิก</a>
+          </div>
+        </div>
+
+        <!-- Register Section -->
+        <div id="registerSection" class="form-container" style="display:none;">
+          <h3 class="text-center gold-text mb-4">สมัครสมาชิก</h3>
+          <div class="mb-2">
+            <label class="form-label">คำนำหน้า</label>
+            <select id="prefix" class="form-select">
+              <option value="">-- เลือก --</option>
+              <option>น.ส.</option><option>นาง</option><option>นาย</option>
+              <option>พ.อ.ต.</option><option>พ.อ.ท.</option><option>พ.อ.อ.</option>
+              <option>ร.ต.</option><option>ร.ท.</option><option>ร.อ.</option>
+              <option>ร.ต.หญิง</option><option>ร.ท.หญิง</option><option>ร.อ.หญิง</option>
+              <option>น.ต.</option><option>น.ท.</option><option>น.อ.</option>
+              <option>น.ต.หญิง</option><option>น.ท.หญิง</option><option>น.อ.หญิง</option>
+            </select>
+          </div>
+          <div class="mb-2"><label class="form-label">ชื่อ</label><input type="text" id="fname" class="form-control" placeholder="ชื่อจริง"></div>
+          <div class="mb-2"><label class="form-label">นามสกุล</label><input type="text" id="lname" class="form-control" placeholder="นามสกุล"></div>
+          <div class="mb-2"><label class="form-label">User ID</label><input type="text" id="bhisId" class="form-control" placeholder="User ID"></div>
+          <div class="mb-2"><label class="form-label">ตั้งรหัสผ่าน</label><input type="password" id="passwordReg" class="form-control" placeholder="รหัสผ่าน"></div>
+          <div class="mb-3"><label class="form-label">ยืนยันรหัสผ่าน</label><input type="password" id="confirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน"></div>
+          <button id="registerBtn" class="btn gold-bg w-100 mb-3" onclick="register()">สมัครสมาชิก</button>
+          <div class="text-center">มีบัญชีแล้ว? <a href="#" onclick="switchSection('loginSection')">กลับไปหน้าเข้าสู่ระบบ</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header border-0">
+          <h5 class="modal-title w-100 text-success" id="successModalLabel"> สมัครสมาชิกสำเร็จ</h5>
+        </div>
+        <div class="modal-body text-dark">
+          กรุณาเข้าสู่ระบบเพื่อใช้งานระบบ
+        </div>
+        <div class="modal-footer border-0 justify-content-center">
+          <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" onclick="switchSection('loginSection')">เข้าสู่ระบบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JS แยกไฟล์ -->
+  <script src="script.js"></script>
 </body>
 </html>
