@@ -1,10 +1,13 @@
+// ฟังก์ชันสลับหน้า login/register
 function switchSection(sectionId) {
   document.getElementById('loginSection').style.display = sectionId === 'loginSection' ? 'block' : 'none';
   document.getElementById('registerSection').style.display = sectionId === 'registerSection' ? 'block' : 'none';
 }
 
+// ✅ ให้สามารถเรียกจาก onclick ใน HTML ได้
+window.switchSection = switchSection;
 
-
+// 🎯 Login
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const bhisId = document.getElementById("bhisLogin").value.trim();
   const password = document.getElementById("passwordLogin").value.trim();
@@ -24,7 +27,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const result = await response.json();
     if (result.success) {
       alert("เข้าสู่ระบบสำเร็จ: " + result.user.fname + " " + result.user.lname);
-      // หรือ redirect ไปหน้า dashboard ได้ที่นี่
+      // redirect ไปหน้า dashboard ได้ที่นี่
     } else {
       alert(result.message);
     }
@@ -33,6 +36,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   }
 });
 
+// 📝 Register
 document.getElementById("registerBtn").addEventListener("click", async () => {
   const prefix = document.getElementById("prefix").value;
   const fname = document.getElementById("fname").value.trim();
@@ -57,9 +61,7 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "register",
-        prefix, fname, lname,
-        bhisId,
-        password
+        prefix, fname, lname, bhisId, password
       })
     });
 
