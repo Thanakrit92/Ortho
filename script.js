@@ -1,3 +1,23 @@
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec'; // 🔁 เปลี่ยนเป็น URL ของคุณ
+
+async function callAPI(action, payload = {}, extra = {}) {
+  const body = {
+    action,
+    payload,
+    ...extra
+  };
+
+  const response = await fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  return await response.json();
+}
+
+
+
 // ป้องกันการ Zoom
 document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt =>
