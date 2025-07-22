@@ -16,10 +16,13 @@ async function register() {
     confirmPassword: document.getElementById("confirmPassword").value
   };
   if (data.password !== data.confirmPassword) return alert("รหัสผ่านไม่ตรงกัน");
+
   const res = await fetch(scriptURL, {
     method: "POST",
+    headers: { "Content-Type": "application/json" }, // ✅ เพิ่มส่วนนี้
     body: JSON.stringify(data)
   });
+
   const json = await res.json();
   alert(json.message);
 }
@@ -30,10 +33,13 @@ async function login() {
     bhisId: document.getElementById("bhisLogin").value,
     password: document.getElementById("passwordLogin").value
   };
+
   const res = await fetch(scriptURL, {
     method: "POST",
+    headers: { "Content-Type": "application/json" }, // ✅ เพิ่มส่วนนี้
     body: JSON.stringify(data)
   });
+
   const json = await res.json();
   alert(json.success ? "เข้าสู่ระบบสำเร็จ" : json.message);
 }
