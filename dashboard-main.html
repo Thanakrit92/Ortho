@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ORTHO SMART</title>
+
+  <!-- External CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <link rel="icon" href="https://i.ibb.co/wFJPn4V/5.png" type="image/png">
+</head>
+
+<body>
+
+  <!-- ส่วน HTML -->
+  <div class="container">
+    <div class="title">ORTHO SMART</div>
+    <div class="row g-3">
+
+      <div class="col-6 col-sm-6 col-lg-4">
+        <div class="card-custom" onclick="navigateTo('bonebank')">
+          <img src="https://lh3.googleusercontent.com/d/1t87zLEItQJn05yn1u6Gn1lJcEMW3X2iZ=w800" alt="BoneBank">
+          <div class="card-body">
+            <div class="card-title">BoneBank</div>
+            <div class="card-subtitle">ลงทะเบียนและใช้งาน</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-sm-6 col-lg-4">
+        <div class="card-custom" onclick="navigateTo('repair')">
+          <img src="https://lh3.googleusercontent.com/d/1w3FLLF9Z1mRHZy_bkn09ej8pQBOqtybu" alt="แจ้งซ่อม">
+          <div class="card-body">
+            <div class="card-title">แจ้งซ่อม</div>
+            <div class="card-subtitle">รับแจ้งซ่อม อุปกรณ์ชำรุด</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-sm-6 col-lg-4">
+        <div class="card-custom" onclick="navigateTo('impcode')">
+          <img src="https://lh3.googleusercontent.com/d/18lh8SiiHBipNlzUUWELcft6ocUlsDwjX" alt="IMP CODE">
+          <div class="card-body">
+            <div class="card-title">IMP CODE</div>
+            <div class="card-subtitle">ค้นหา IMP ส่วนเกิน</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-sm-6 col-lg-4">
+        <div class="card-custom" onclick="navigateTo('surgicalSetDashboard')">
+          <img src="https://lh3.googleusercontent.com/d/1tbzPyU3Q6_cPXKTkZgwOletL-yK05nYA" alt="เครื่องมือ ORTHO">
+          <div class="card-body">
+            <div class="card-title">เครื่องมือ ORTHO</div>
+            <div class="card-subtitle">SET ชุดเครื่องมือ</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a href="#" onclick="navigateTo('dashboard')">
+      <i class="fas fa-home"></i>
+      <span>หน้าแรก</span>
+    </a>
+    <a href="#" onclick="navigateTo('dashboard')">
+      <i class="fas fa-list"></i>
+      <span>รายการ</span>
+    </a>
+    <a href="#" onclick="logout()">
+      <i class="fas fa-user"></i>
+      <span>ออกจากระบบ</span>
+    </a>
+  </div>
+
+  <!-- Loading Popup -->
+  <div id="loadingPopup" class="loading-popup">
+    <div class="loading-box">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 fw-bold">Let's Go!!</p>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="logoutModalLabel">ยืนยันการออกจากระบบ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+        </div>
+        <div class="modal-body">
+          คุณต้องการออกจากระบบใช่หรือไม่?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-danger" onclick="confirmLogout()">ยืนยันออกจากระบบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- External Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
