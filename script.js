@@ -1,5 +1,7 @@
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec'; // 🔁 เปลี่ยนเป็น URL ของคุณ
+// ✅ URL ของ Google Apps Script Web App
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec';
 
+// ✅ ฟังก์ชันกลางสำหรับเรียก API
 async function callAPI(action, payload = {}, extra = {}) {
   const body = {
     action,
@@ -7,7 +9,7 @@ async function callAPI(action, payload = {}, extra = {}) {
     ...extra
   };
 
-  const response = await fetch(GAS_URL, {
+  const response = await fetch(WEB_APP_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
@@ -16,16 +18,14 @@ async function callAPI(action, payload = {}, extra = {}) {
   return await response.json();
 }
 
+// ✅ ป้องกันการ Zoom (Mobile)
+document.addEventListener('wheel', e => {
+  if (e.ctrlKey) e.preventDefault();
+}, { passive: false });
 
-
-// ป้องกันการ Zoom
-document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt =>
   document.addEventListener(evt, e => e.preventDefault())
 );
-
-// 🟢 URL ของ Apps Script Web App
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec";
 
 // ✅ สลับหน้า login/register
 function switchSection(id) {
@@ -44,31 +44,28 @@ async function register() {
   const confirm = document.getElementById("confirmPassword").value;
   const registerBtn = document.getElementById("registerBtn");
 
-  if (!prefix || !fname || !lname || !bhis || !pass || !confirm) return alert("กรุณากรอกข้อมูลให้ครบ");
-  if (pass !== confirm) return alert("รหัสผ่านไม่ตรงกัน");
+  if (!prefix || !fname || !lname || !bhis || !pass || !confirm) {
+    alert("กรุณากรอกข้อมูลให้ครบ");
+    return;
+  }
+
+  if (pass !== confirm) {
+    alert("รหัสผ่านไม่ตรงกัน");
+    return;
+  }
 
   registerBtn.disabled = true;
   registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>กำลังสมัครสมาชิก...`;
 
   try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "register",
-        prefix,
-        fname,
-        lname,
-        bhis,
-        pass
-      })
+    const res = await callAPI("registerUser", {
+      prefix, fname, lname, bhis, pass
     });
 
-    const result = await res.json();
-    if (result.status === "success") {
+    if (res.status === "success") {
       new bootstrap.Modal(document.getElementById('successModal')).show();
     } else {
-      alert("เกิดข้อผิดพลาด: " + result.message);
+      alert("เกิดข้อผิดพลาด: " + (res.message || 'ไม่สามารถสมัครสมาชิกได้'));
     }
   } catch (err) {
     alert("เกิดข้อผิดพลาด: " + err.message);
@@ -89,25 +86,22 @@ async function login() {
   const pass = document.getElementById("passwordLogin").value.trim();
   const loginBtn = document.getElementById("loginBtn");
 
-  if (!bhis || !pass) return alert("กรุณากรอกข้อมูลให้ครบ");
+  if (!bhis || !pass) {
+    alert("กรุณากรอกข้อมูลให้ครบ");
+    return;
+  }
 
   loginBtn.disabled = true;
   loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>กำลังเข้าสู่ระบบ...`;
 
   try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "login",
-        bhis,
-        pass
-      })
+    const res = await callAPI("checkLogin", {
+      bhis,
+      password: pass
     });
 
-    const result = await res.json();
-    if (result.status === "success") {
-      window.location.href = result.redirectUrl;
+    if (res.status === "success") {
+      window.location.href = "dashboard-main.html";
     } else {
       alert("User ID หรือรหัสผ่านไม่ถูกต้อง");
       resetLoginBtn();
@@ -124,13 +118,13 @@ function resetLoginBtn() {
   btn.innerHTML = "เข้าสู่ระบบ";
 }
 
-// ✅ ไปยังหน้าต่าง ๆ
+// ✅ ไปยังหน้าอื่น (ใช้ในระบบ GitHub Pages)
 function navigateTo(page) {
   document.getElementById("loadingPopup").style.display = "flex";
-  window.location.href = `${WEB_APP_URL}?page=${page}`;
+  window.location.href = `${page}.html`;
 }
 
-// ✅ ออกจากระบบ
+// ✅ Logout (modal ยืนยัน)
 function logout() {
   const modal = new bootstrap.Modal(document.getElementById('logoutModal'));
   modal.show();
@@ -138,5 +132,5 @@ function logout() {
 
 function confirmLogout() {
   document.getElementById("loadingPopup").style.display = "flex";
-  window.location.href = `${WEB_APP_URL}?page=index&logout=true`;
+  window.location.href = "index.html";
 }
