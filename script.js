@@ -80,3 +80,49 @@ function resetLoginBtn() {
   btn.disabled = false;
   btn.innerHTML = "เข้าสู่ระบบ";
 }
+
+///แดชบอร์ด///
+
+// ปิดการ zoom ด้วย Ctrl + Scroll
+document.addEventListener('wheel', function(e) {
+  if (e.ctrlKey) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// ปิดการ zoom ด้วย Gesture บน touch device
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault();
+});
+document.addEventListener('gesturechange', function (e) {
+  e.preventDefault();
+});
+document.addEventListener('gestureend', function (e) {
+  e.preventDefault();
+});
+
+function navigateTo(page) {
+  // แสดง popup
+  document.getElementById("loadingPopup").style.display = "flex";
+
+  // เรียก WebApp URL จาก Apps Script
+  google.script.run.withSuccessHandler(function (url) {
+    const newUrl = url + "?page=" + page;
+    window.open(newUrl, "_top");
+  }).getWebAppUrl();
+}
+
+function logout() {
+  const modal = new bootstrap.Modal(document.getElementById('logoutModal'));
+  modal.show();
+}
+
+function confirmLogout() {
+  document.getElementById("loadingPopup").style.display = "flex"; // แสดง loading
+  google.script.run
+    .withSuccessHandler(function(url) {
+      window.location.href = url + "?page=index";
+    })
+    .logoutAndReturnHome();
+}
+
