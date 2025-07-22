@@ -34,12 +34,26 @@ async function login() {
     password: document.getElementById("passwordLogin").value
   };
 
-  const res = await fetch(scriptURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" }, // ✅ เพิ่มส่วนนี้
-    body: JSON.stringify(data)
-  });
+  try {
+    const res = await fetch(scriptURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"   // ✅ ต้องมี header นี้
+      },
+      body: JSON.stringify(data)
+    });
 
-  const json = await res.json();
-  alert(json.success ? "เข้าสู่ระบบสำเร็จ" : json.message);
+    const json = await res.json();
+
+    if (json.success) {
+      alert("เข้าสู่ระบบสำเร็จ");
+      localStorage.setItem("user", JSON.stringify(json.user));
+      // window.location.href = "dashboard.html"; // ถ้ามีหน้าใหม่
+    } else {
+      alert(json.message);
+    }
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
+  }
 }
+
