@@ -25,7 +25,7 @@ document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, 
 );
 
 // 🟢 URL ของ Apps Script Web App
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyoFATY4l0nQXzq3-IN1Q7yX2kdJwypx8KSwxG-U0jYQ0ju9cdW7DgIabcREfjftRQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec";
 
 // ✅ สลับหน้า login/register
 function switchSection(id) {
