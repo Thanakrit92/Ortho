@@ -27,3 +27,140 @@ body {
 .form-label { color: #fff; }
 a { color: #FFD700; }
 a:hover { text-decoration: underline; }
+
+///แดชบอรด///
+
+html, body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  height: 100%;
+  touch-action: pan-y;
+}
+
+body {
+  background: linear-gradient(to top, #f0f4f8, #ffffff);
+  font-family: 'Kanit', sans-serif;
+  color: #2c3e50;
+  padding-bottom: 80px;
+}
+
+.title {
+  text-align: center;
+  margin: 30px 0 20px;
+  font-weight: bold;
+  font-size: 32px;
+  color: #2c3e50;
+}
+
+.card-custom {
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(44, 62, 80, 0.15);
+  transition: all 0.25s ease-in-out;
+  border: 1px solid #dee2e6;
+  cursor: pointer;
+}
+
+.card-custom:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
+}
+
+.card-custom:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 15px rgba(0, 128, 255, 0.3);
+}
+
+.card-custom img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card-body {
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: #607d8b;
+  margin-top: 4px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1a237e;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  z-index: 999;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.bottom-nav a {
+  color: #fff;
+  font-size: 13px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottom-nav a:hover {
+  color: #90caf9;
+}
+
+.bottom-nav i {
+  font-size: 20px;
+  margin-bottom: 3px;
+}
+
+.row.g-4 {
+  margin-bottom: 40px;
+}
+
+.loading-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-box {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  text-align: center;
+  color: #333;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer .btn-danger {
+  width: 160px;
+}
+
+.modal-footer .btn-secondary {
+  width: 120px;
+}
+
