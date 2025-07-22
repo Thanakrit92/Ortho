@@ -32,7 +32,7 @@
           </div>
           <button type="button" id="loginBtn" class="btn gold-bg w-100 mb-3">เข้าสู่ระบบ</button>
           <div class="text-center">
-            ยังไม่มีบัญชี? <a href="#" onclick="switchSection('registerSection')">สมัครสมาชิก</a>
+            ยังไม่มีบัญชี? <a href="#" id="switchToRegister">สมัครสมาชิก</a>
           </div>
         </div>
 
@@ -57,7 +57,7 @@
           <div class="mb-2"><label class="form-label">ตั้งรหัสผ่าน</label><input type="password" id="passwordReg" class="form-control"></div>
           <div class="mb-3"><label class="form-label">ยืนยันรหัสผ่าน</label><input type="password" id="confirmPassword" class="form-control"></div>
           <button type="button" id="registerBtn" class="btn gold-bg w-100 mb-3">สมัครสมาชิก</button>
-          <div class="text-center">มีบัญชีแล้ว? <a href="#" onclick="switchSection('loginSection')">กลับไปหน้าเข้าสู่ระบบ</a></div>
+          <div class="text-center">มีบัญชีแล้ว? <a href="#" id="switchToLogin">กลับไปหน้าเข้าสู่ระบบ</a></div>
         </div>
 
       </div>
@@ -73,7 +73,7 @@
         </div>
         <div class="modal-body text-dark">กรุณาเข้าสู่ระบบเพื่อใช้งานระบบ</div>
         <div class="modal-footer border-0 justify-content-center">
-          <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" onclick="switchSection('loginSection')">เข้าสู่ระบบ</button>
+          <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" id="goToLoginFromSuccess">เข้าสู่ระบบ</button>
         </div>
       </div>
     </div>
@@ -81,7 +81,8 @@
 
   <!-- Bootstrap Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- JS แยกไฟล์ -->
+
+  <!-- External Script -->
   <script src="script.js"></script>
 </body>
 </html>
