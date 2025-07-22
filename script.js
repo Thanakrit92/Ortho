@@ -1,3 +1,10 @@
+function switchSection(sectionId) {
+  document.getElementById('loginSection').style.display = sectionId === 'loginSection' ? 'block' : 'none';
+  document.getElementById('registerSection').style.display = sectionId === 'registerSection' ? 'block' : 'none';
+}
+
+
+
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const bhisId = document.getElementById("bhisLogin").value.trim();
   const password = document.getElementById("passwordLogin").value.trim();
