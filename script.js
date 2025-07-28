@@ -19,6 +19,23 @@ function switchSection(sectionId) {
 }
 window.switchSection = switchSection;
 
+// ✅ กดลิงก์ "สมัครสมาชิก"
+document.getElementById("goToRegister").addEventListener("click", (e) => {
+  e.preventDefault();
+  switchSection("registerSection");
+});
+
+// ✅ กดลิงก์ "กลับเข้าสู่ระบบ"
+document.getElementById("goToLogin").addEventListener("click", (e) => {
+  e.preventDefault();
+  switchSection("loginSection");
+});
+
+// ✅ กดปุ่ม "เข้าสู่ระบบ" บน Modal
+document.getElementById("successGoLogin").addEventListener("click", () => {
+  switchSection("loginSection");
+});
+
 // ✅ Login Event
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const bhis = document.getElementById("bhisLogin").value.trim();
@@ -34,7 +51,8 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 
     if (result.status === "success") {
       alert("เข้าสู่ระบบสำเร็จ");
-      // ตัวอย่าง: window.location.href = "dashboard.html";
+      // ✅ เปลี่ยนไปหน้า dashboard ได้ที่นี่:
+      // window.location.href = "dashboard.html";
     } else {
       alert("รหัสไม่ถูกต้อง");
     }
@@ -63,7 +81,12 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
   }
 
   try {
-    const result = await fetchPost("registerUser", { bhis, name: `${prefix}${fname} ${lname}`, email: "", password });
+    const result = await fetchPost("registerUser", {
+      bhis,
+      name: `${prefix}${fname} ${lname}`,
+      email: "",
+      password
+    });
 
     if (result.status === "success") {
       new bootstrap.Modal(document.getElementById("successModal")).show();
@@ -74,8 +97,3 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
     alert("เกิดข้อผิดพลาด: " + err.message);
   }
 });
-
-document.getElementById("goToRegister").addEventListener("click", () => switchSection("registerSection"));
-document.getElementById("goToLogin").addEventListener("click", () => switchSection("loginSection"));
-document.getElementById("successGoLogin").addEventListener("click", () => switchSection("loginSection"));
-
