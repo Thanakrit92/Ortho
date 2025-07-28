@@ -1,51 +1,58 @@
-// ฟังก์ชันสลับหน้า login/register
-function switchSection(sectionId) {
-  document.getElementById('loginSection').style.display = sectionId === 'loginSection' ? 'block' : 'none';
-  document.getElementById('registerSection').style.display = sectionId === 'registerSection' ? 'block' : 'none';
+// ✅ BASE URL ของ GAS API
+const API_URL = "https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec";
+
+// ✅ ตัวช่วยส่ง POST
+async function fetchPost(action, payload) {
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action, payload })
+  });
+
+  return await response.json();
 }
 
-// ✅ ให้สามารถเรียกจาก onclick ใน HTML ได้
+// ✅ ฟังก์ชันสลับหน้า Login/Register
+function switchSection(sectionId) {
+  document.getElementById("loginSection").style.display = sectionId === "loginSection" ? "block" : "none";
+  document.getElementById("registerSection").style.display = sectionId === "registerSection" ? "block" : "none";
+}
 window.switchSection = switchSection;
 
-// 🎯 Login
+// ✅ Login Event
 document.getElementById("loginBtn").addEventListener("click", async () => {
-  const bhisId = document.getElementById("bhisLogin").value.trim();
+  const bhis = document.getElementById("bhisLogin").value.trim();
   const password = document.getElementById("passwordLogin").value.trim();
 
-  if (!bhisId || !password) {
+  if ([bhis, password].some(val => val === "")) {
     alert("กรุณากรอกข้อมูลให้ครบ");
     return;
   }
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbyoMaHI6zPWH_jcJgkPwN50e9IwxIqUh31AfMbct9rtU68jxsjemtuOyRbhLNpUbW-jDQ/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "login", bhisId, password })
-    });
+    const result = await fetchPost("checkLogin", { bhis, password });
 
-    const result = await response.json();
-    if (result.success) {
-      alert("เข้าสู่ระบบสำเร็จ: " + result.user.fname + " " + result.user.lname);
-      // redirect ไปหน้า dashboard ได้ที่นี่
+    if (result.status === "success") {
+      alert("เข้าสู่ระบบสำเร็จ");
+      // ตัวอย่าง: window.location.href = "dashboard.html";
     } else {
-      alert(result.message);
+      alert("รหัสไม่ถูกต้อง");
     }
-  } catch (error) {
-    alert("เกิดข้อผิดพลาด: " + error.message);
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
   }
 });
 
-// 📝 Register
+// ✅ Register Event
 document.getElementById("registerBtn").addEventListener("click", async () => {
   const prefix = document.getElementById("prefix").value;
   const fname = document.getElementById("fname").value.trim();
   const lname = document.getElementById("lname").value.trim();
-  const bhisId = document.getElementById("bhisId").value.trim();
+  const bhis = document.getElementById("bhisId").value.trim();
   const password = document.getElementById("passwordReg").value.trim();
   const confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-  if (!prefix || !fname || !lname || !bhisId || !password || !confirmPassword) {
+  if ([prefix, fname, lname, bhis, password, confirmPassword].some(val => val === "")) {
     alert("กรุณากรอกข้อมูลให้ครบ");
     return;
   }
@@ -56,22 +63,14 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
   }
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbyoMaHI6zPWH_jcJgkPwN50e9IwxIqUh31AfMbct9rtU68jxsjemtuOyRbhLNpUbW-jDQ/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "register",
-        prefix, fname, lname, bhisId, password
-      })
-    });
+    const result = await fetchPost("registerUser", { bhis, name: `${prefix}${fname} ${lname}`, email: "", password });
 
-    const result = await response.json();
-    if (result.success) {
+    if (result.status === "success") {
       new bootstrap.Modal(document.getElementById("successModal")).show();
     } else {
-      alert(result.message);
+      alert(result.message || "เกิดข้อผิดพลาดในการสมัคร");
     }
-  } catch (error) {
-    alert("เกิดข้อผิดพลาด: " + error.message);
+  } catch (err) {
+    alert("เกิดข้อผิดพลาด: " + err.message);
   }
 });
