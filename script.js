@@ -50,9 +50,14 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const result = await fetchPost("checkLogin", { bhis, password });
 
     if (result.status === "success") {
-      alert("เข้าสู่ระบบสำเร็จ");
-      // ✅ เปลี่ยนไปหน้า dashboard ได้ที่นี่:
-      // window.location.href = "dashboard.html";
+      // ✅ เก็บ session ชั่วคราวไว้ใน localStorage (optional)
+      localStorage.setItem("bhis", bhis);
+
+      // ✅ แสดง loading popup แล้ว redirect
+      document.getElementById("loadingPopup").style.display = "flex";
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1000);
     } else {
       alert("รหัสไม่ถูกต้อง");
     }
@@ -60,6 +65,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     alert("เกิดข้อผิดพลาด: " + err.message);
   }
 });
+
 
 // ✅ Register Event
 document.getElementById("registerBtn").addEventListener("click", async () => {
