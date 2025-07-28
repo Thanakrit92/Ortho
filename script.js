@@ -74,3 +74,8 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
     alert("เกิดข้อผิดพลาด: " + err.message);
   }
 });
+
+document.getElementById("goToRegister").addEventListener("click", () => switchSection("registerSection"));
+document.getElementById("goToLogin").addEventListener("click", () => switchSection("loginSection"));
+document.getElementById("successGoLogin").addEventListener("click", () => switchSection("loginSection"));
+
