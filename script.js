@@ -1,5 +1,5 @@
 // ✅ BASE URL ของ GAS API
-const API_URL = "https://script.google.com/macros/s/AKfycbwb0vLATwMa0ke1Um0MwsybC8iFUezl8tcesk-jKNyIzrF0zwt92A4of304Gi30_To/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw8N7S3nQSMDAsQGEhads5FM4eRliNq5x1YRMn69QJuIbmsIRe145uvpiU4XQp2QOU1/exec";
 
 // ✅ ตัวช่วยส่ง POST
 async function fetchPost(action, payload) {
